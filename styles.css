@@ -1,165 +1,173 @@
-/* COMPLETE & CORRECTED CSS - FULL BLOCK - VERSION 27 - LINE-HEIGHT ADJUSTMENT */
-       body, html {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: black;
-            color: lightgrey;
-        }
-        h2, h3 {
-            color: #d3d3d3;
-            border-bottom: 2px solid #666;
-            padding-bottom: 5px;
-            margin-top: 30px;
-        }
-        h4 {
-            margin-top: 20px;
-            font-style: italic;
-        }
-        .question-container {
-            border: 1px solid #555;
-            border-radius: 5px;
-            line-height: 1.0;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
+/* COMPLETE & CORRECTED CSS - RESPONSIVE VERSION - BASED ON ORIGINAL - VERSION 28 - FOR MOBILE AND DESKTOP */
+body, html {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: black;
+    color: lightgrey;
+}
 
-        .question-container.collapsed {
-            padding: 15px;
-            margin-bottom: 15px;
-            /*text-overflow: ellipsis;  Removed this - it prevents wrapping */
-            /*white-space: nowrap; Removed - allows wrapping*/
-            max-width: 100%;
-            line-height: 1;
-            color: lightgrey;
-        }
+h2, h3 {
+    color: #d3d3d3;
+    border-bottom: 2px solid #666;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
 
-        .question-container.collapsed .question-number {
-            display: block;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-right: 0;
-            margin-bottom: 15px;
-            color: #777;
-            line-height: 1.0;
-            padding-right: 5px;
-            padding-left: 0px;
-        }
+h4 {
+    margin-top: 20px;
+    font-style: italic;
+}
 
-        .question-container.collapsed .question-text {
-            display: block;
-            font-size: 1.1em;
-            margin-top: 15px;
-            margin-left: 0;
-            /*overflow: hidden; REMOVED - allows wrapping*/
-            /*text-overflow: ellipsis; REMOVED - allows wrapping*/
-            /*white-space: nowrap; REMOVED - allows wrapping*/
-            max-width: 100%;
-            line-height: 1.0; /* CHANGED to 1.6 - MATCH BODY LINE-HEIGHT */
-            color: lightgrey;
-            padding-left: 0px;
-            padding-right: 0px;
-        }
+.question-container {
+    border: 1px solid #555;
+    border-radius: 5px;
+    line-height: 1.0;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
 
-        .question-container.collapsed .answer-choices {
-            display: none;
-        }
+.question-container.collapsed {
+    padding: 15px;
+    margin-bottom: 15px;
+    max-width: 100%;
+    line-height: 1;
+    color: lightgrey;
+}
 
-        .question-number {
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-right: 5px;
-            color: #777;
-            display: block;
-            cursor: pointer;
-        }
+.question-container.collapsed .question-number {
+    display: block;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-right: 0;
+    margin-bottom: 15px;
+    color: #777;
+    line-height: 1.0;
+    padding-right: 5px;
+    padding-left: 0px;
+}
+
+.question-container.collapsed .question-text {
+    display: block;
+    font-size: 1.1em;
+    margin-top: 15px;
+    margin-left: 0;
+    max-width: 100%;
+    line-height: 1.0;
+    color: lightgrey;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.question-container.collapsed .answer-choices {
+    display: none;
+}
 
 .question-number {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-right: 5px;
+    color: #777;
+    display: block;
+    cursor: pointer;
 }
-        .question-text {
-            font-family: Arial, sans-serif;
-            font-size: 1.1em;
-            margin-top: 15px;
-            display: block;
-        }
-        .answer-choices {
-            margin-top: 10px;
-        }
-        .answer-choice {
-            display: block;
-            margin-bottom: 5px;
-            padding: 8px;
-            border: 1px solid #777;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: lightgrey;
-            color: black;
-        }
-        .answer-choice:hover {
-            background-color: #f0f0f0;
-        }
-        .answer-choice.correct-answer { /* **INCREASED SPECIFICITY - .answer-choice.correct-answer** */
-            background-color: #90ee90 !important;
-            color: black;
-        }
-        .incorrect-answer {
-            background-color: #ff6961 !important;
-            color: white;
-        }
 
-        .button-container-right {
-            float: right;
-            margin-top: -110px;
-            margin-right: 10px;
-        }
+.question-text {
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
+    margin-top: 15px;
+    display: block;
+}
 
-        .reveal-button-container, .clear-button-container, .test-button-container, .collapse-button-container {
-            margin-bottom: 1px;
-            text-align: right;
-        }
+.answer-choices {
+    margin-top: 10px;
+}
 
-        .reveal-button, .clear-button, .test-button, .collapse-button {
-            padding: 3px 6px;
-            background-color: #777;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: .8em;
-            margin: 0 5px;
-            min-width: 150px;
-            box-sizing: border-box;
-        }
+.answer-choice {
+    display: block;
+    margin-bottom: 5px;
+    padding: 8px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: lightgrey;
+    color: black;
+}
 
-        .reveal-button:hover, .clear-button:hover, .test-button:hover, .collapse-button:hover {
-            background-color: #999;
-        }
+.answer-choice:hover {
+    background-color: #f0f0f0;
+}
 
-        .question-container.answered .answer-choice {
-            cursor: default;
-            pointer-events: none;
-        }
+.answer-choice.correct-answer {
+    background-color: #90ee90 !important;
+    color: black;
+}
 
-        .question-container.answered .answer-choice:hover {
-            background-color: lightgrey !important;
-        }
+.incorrect-answer {
+    background-color: #ff6961 !important;
+    color: white;
+}
 
-        .question-container.answered .answer-choices .answer-choice.correct-answer {
-            background-color: #90ee90 !important;
-            color: black;
-        }
+.button-container-right {
+    float: right;
+    margin-top: -110px;
+    margin-right: 10px;
+}
 
-        .test-button-container {
-            display: none; /* Hide test buttons */
-        }
+.reveal-button-container,
+.clear-button-container,
+.test-button-container,
+.collapse-button-container {
+    margin-bottom: 1px;
+    text-align: right;
+}
 
-        /* ... (your existing CSS) ... */
+.reveal-button,
+.clear-button,
+.test-button,
+.collapse-button {
+    padding: 3px 6px;
+    background-color: #777;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: .8em;
+    margin: 0 5px;
+    min-width: 150px;
+    box-sizing: border-box;
+}
+
+.reveal-button:hover,
+.clear-button:hover,
+.test-button:hover,
+.collapse-button:hover {
+    background-color: #999;
+}
+
+.question-container.answered .answer-choice {
+    cursor: default;
+    pointer-events: none;
+}
+
+.question-container.answered .answer-choice:hover {
+    background-color: lightgrey !important;
+}
+
+.question-container.answered .answer-choices .answer-choice.correct-answer {
+    background-color: #90ee90 !important;
+    color: black;
+}
+
+.test-button-container {
+    display: none; /* Hide test buttons */
+}
 
 .score-container {
     display: flex;
-    justify-content: space-between; /* Distribute space between elements */
-    align-items: center; /* Vertically center items */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #555;
@@ -169,23 +177,20 @@
 
 .score-table {
     display: flex;
-    /*flex-direction: column;  Stack vertically */
     gap: 1rem;
-    /*align-items: flex-start;  Align to the left */
 }
 
 .score-table div {
-    margin-bottom: 5px; /* Space between score items */
+    margin-bottom: 5px;
 }
-.score-table span{
+
+.score-table span {
     margin-right: 5px;
 }
 
 .score-buttons {
     display: flex;
-   /* flex-direction: column; /* Stack buttons vertically */
-    gap: 0.5rem; /* Add some space between buttons */
-
+    gap: 0.5rem;
 }
 
 .score-button {
@@ -196,9 +201,125 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-  /*  margin-bottom: 5px;  Space between buttons */
 }
 
 .score-button:hover {
     background-color: #999;
+}
+
+
+/* --- MEDIA QUERIES FOR RESPONSIVE DESIGN (MOBILE) --- */
+@media screen and (max-width: 768px) {
+    body, html {
+        margin: 10px; /* Reduced body margin for phones */
+        font-size: 0.95em; /* Slightly smaller base font size on phones */
+        line-height: 1.5; /* Adjust line height slightly for smaller text */
+    }
+
+    h2, h3 {
+        font-size: 1.3em; /* Smaller headings on phones */
+        padding-bottom: 4px; /* Less padding under headings on phones */
+        margin-top: 25px; /* Slightly less top margin for headings on phones */
+    }
+
+    h4 {
+        margin-top: 15px; /* Adjust italic text margin on phones */
+        font-size: 1em; /* Slightly smaller italic text on phones */
+    }
+
+    .question-container {
+        padding: 12px; /* Less padding in question boxes on phones */
+        margin-bottom: 12px; /* Less margin between questions on phones */
+    }
+
+    .question-container.collapsed {
+        padding: 12px; /* Less padding in collapsed state on phones */
+        margin-bottom: 12px; /* Less margin in collapsed state on phones */
+    }
+
+    .question-container.collapsed .question-number {
+        font-size: 0.85em; /* Smaller question number on phones */
+        margin-bottom: 12px; /* Less margin below question number on phones */
+    }
+
+    .question-container.collapsed .question-text {
+        font-size: 1.05em; /* Slightly smaller question text on phones */
+        margin-top: 12px; /* Less margin above question text on phones */
+    }
+
+    .question-text {
+        font-size: 1.05em; /* Slightly smaller question text on phones - non-collapsed */
+        margin-top: 12px; /* Less margin above question text on phones - non-collapsed */
+    }
+
+
+    .answer-choices {
+        margin-top: 8px; /* Less margin above answer choices on phones */
+    }
+
+    .answer-choice {
+        padding: 7px; /* Smaller padding in answer choices on phones */
+        margin-bottom: 4px; /* Less margin between answer choices on phones */
+        font-size: 0.9em; /* Slightly smaller answer choice text on phones */
+    }
+
+    .button-container-right {
+        float: none; /* Remove float for phone layout - stack buttons */
+        margin-top: 15px; /* Adjust top margin for buttons on phones */
+        margin-right: 0; /* Remove right margin on phones */
+        text-align: center; /* Center buttons on phone */
+    }
+
+    .reveal-button-container,
+    .clear-button-container,
+    .test-button-container,
+    .collapse-button-container {
+        margin-bottom: 5px; /* More space between stacked buttons on phone */
+        text-align: center; /* Ensure text alignment is centered for stacked buttons */
+    }
+
+
+    .reveal-button,
+    .clear-button,
+    .test-button,
+    .collapse-button {
+        min-width: auto; /* Allow buttons to shrink on phones */
+        width: 90%; /* Make buttons slightly less than full width on phone for padding */
+        margin: 5px auto; /* Add vertical margin and center buttons */
+        font-size: 0.9em; /* Slightly smaller button text on phones */
+        padding: 8px; /* Smaller button padding on phones */
+        display: block; /* Ensure buttons stack properly */
+    }
+
+    .score-container {
+        flex-direction: column; /* Stack score elements vertically on phones */
+        align-items: stretch; /* Make score elements full width on phones */
+        padding: 10px; /* Less padding in score container on phones */
+        margin-bottom: 15px; /* Adjust bottom margin on phones */
+    }
+
+    .score-table {
+        flex-direction: column; /* Stack score table items vertically on phones */
+        gap: 0.4rem; /* Less gap between score items on phones */
+    }
+
+    .score-buttons {
+        flex-direction: column; /* Stack score buttons vertically on phones */
+        gap: 0.2rem; /* Less gap between score buttons on phones */
+        margin-top: 10px; /* Add a little top margin to score buttons when stacked */
+    }
+
+    .score-button {
+        font-size: 0.85em; /* Slightly smaller score button text on phones */
+        padding: 7px 10px; /* Smaller score button padding on phones */
+        margin-bottom: 2px; /* Less margin below score buttons on phones */
+        width: 90%; /* Make score buttons slightly less than full width */
+        display: block; /* Ensure score buttons stack */
+        margin-left: auto; /* Center score buttons when stacked */
+        margin-right: auto;
+    }
+
+    .score-table div {
+        text-align: center; /* Center score text on phones */
+    }
 }
