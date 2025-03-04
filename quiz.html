@@ -89,14 +89,17 @@
                 // Initial render and displayResults moved inside a function
                 initialRender();
             });
-          function initialRender() {
-              renderQuizUI();      // Initial render
-              displayResults();    // Initial score display
-              // NOW it's safe to check isRandomMode and potentially display a question
-              if (isRandomMode) {
-                  displayRandomQuestion(); // Call *after* initial render
-              }
-          }
+            
+            function initialRender() {
+                renderQuizUI();      // Initial render
+                displayResults();    // Initial score display
+                displayResultsClicked(); // *** ADD THIS LINE *** - Trigger "Display Results" mode on load
+            
+                // NOW it's safe to check isRandomMode and potentially display a question
+                if (isRandomMode) {
+                    displayRandomQuestion(); // Call *after* initial render
+                }
+            }
 
             function attachEventListeners() {
                 document.getElementById('reveal-answers-button').addEventListener('click', revealClicked);
