@@ -1,0 +1,204 @@
+/* COMPLETE & CORRECTED CSS - FULL BLOCK - VERSION 27 - LINE-HEIGHT ADJUSTMENT */
+       body, html {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: black;
+            color: lightgrey;
+        }
+        h2, h3 {
+            color: #d3d3d3;
+            border-bottom: 2px solid #666;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h4 {
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .question-container {
+            border: 1px solid #555;
+            border-radius: 5px;
+            line-height: 1.0;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .question-container.collapsed {
+            padding: 15px;
+            margin-bottom: 15px;
+            /*text-overflow: ellipsis;  Removed this - it prevents wrapping */
+            /*white-space: nowrap; Removed - allows wrapping*/
+            max-width: 100%;
+            line-height: 1;
+            color: lightgrey;
+        }
+
+        .question-container.collapsed .question-number {
+            display: block;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 0;
+            margin-bottom: 15px;
+            color: #777;
+            line-height: 1.0;
+            padding-right: 5px;
+            padding-left: 0px;
+        }
+
+        .question-container.collapsed .question-text {
+            display: block;
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-left: 0;
+            /*overflow: hidden; REMOVED - allows wrapping*/
+            /*text-overflow: ellipsis; REMOVED - allows wrapping*/
+            /*white-space: nowrap; REMOVED - allows wrapping*/
+            max-width: 100%;
+            line-height: 1.0; /* CHANGED to 1.6 - MATCH BODY LINE-HEIGHT */
+            color: lightgrey;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .question-container.collapsed .answer-choices {
+            display: none;
+        }
+
+        .question-number {
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 5px;
+            color: #777;
+            display: block;
+            cursor: pointer;
+        }
+
+.question-number {
+}
+        .question-text {
+            font-family: Arial, sans-serif;
+            font-size: 1.1em;
+            margin-top: 15px;
+            display: block;
+        }
+        .answer-choices {
+            margin-top: 10px;
+        }
+        .answer-choice {
+            display: block;
+            margin-bottom: 5px;
+            padding: 8px;
+            border: 1px solid #777;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: lightgrey;
+            color: black;
+        }
+        .answer-choice:hover {
+            background-color: #f0f0f0;
+        }
+        .answer-choice.correct-answer { /* **INCREASED SPECIFICITY - .answer-choice.correct-answer** */
+            background-color: #90ee90 !important;
+            color: black;
+        }
+        .incorrect-answer {
+            background-color: #ff6961 !important;
+            color: white;
+        }
+
+        .button-container-right {
+            float: right;
+            margin-top: -110px;
+            margin-right: 10px;
+        }
+
+        .reveal-button-container, .clear-button-container, .test-button-container, .collapse-button-container {
+            margin-bottom: 1px;
+            text-align: right;
+        }
+
+        .reveal-button, .clear-button, .test-button, .collapse-button {
+            padding: 3px 6px;
+            background-color: #777;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: .8em;
+            margin: 0 5px;
+            min-width: 150px;
+            box-sizing: border-box;
+        }
+
+        .reveal-button:hover, .clear-button:hover, .test-button:hover, .collapse-button:hover {
+            background-color: #999;
+        }
+
+        .question-container.answered .answer-choice {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .question-container.answered .answer-choice:hover {
+            background-color: lightgrey !important;
+        }
+
+        .question-container.answered .answer-choices .answer-choice.correct-answer {
+            background-color: #90ee90 !important;
+            color: black;
+        }
+
+        .test-button-container {
+            display: none; /* Hide test buttons */
+        }
+
+        /* ... (your existing CSS) ... */
+
+.score-container {
+    display: flex;
+    justify-content: space-between; /* Distribute space between elements */
+    align-items: center; /* Vertically center items */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #222;
+}
+
+.score-table {
+    display: flex;
+    /*flex-direction: column;  Stack vertically */
+    gap: 1rem;
+    /*align-items: flex-start;  Align to the left */
+}
+
+.score-table div {
+    margin-bottom: 5px; /* Space between score items */
+}
+.score-table span{
+    margin-right: 5px;
+}
+
+.score-buttons {
+    display: flex;
+   /* flex-direction: column; /* Stack buttons vertically */
+    gap: 0.5rem; /* Add some space between buttons */
+
+}
+
+.score-button {
+    padding: 8px 12px;
+    background-color: #777;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+  /*  margin-bottom: 5px;  Space between buttons */
+}
+
+.score-button:hover {
+    background-color: #999;
+}
