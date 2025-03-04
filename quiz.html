@@ -14,9 +14,6 @@
             <div class="reveal-button-container">
                 <button id="reveal-answers-button" class="reveal-button">Reveal All Answers</button>
             </div>
-            <div class="clear-button-container">
-                <button id="clear-answers-button" class="clear-button">Clear All Answers</button>
-            </div>
             <div class="collapse-button-container">
                 <button id="collapse-all-button" class="clear-button">Collapse All Questions</button>
             </div>
@@ -180,19 +177,6 @@
                      console.log(`revealClicked - Question: ${questionData.number} AFTER updateQuestionState - Answered: ${getQuestionState(questionData.number).answered}`); // Debugging AFTER
                 });
                 displayResults(); // Update score display *after* all questions are processed.
-            }
-
-            function clearClicked() {
-                if (isRandomMode) {
-                  deactivateRandomMode();
-                }
-                if (isDebugMode) console.log("Clear Answers button clicked.");
-                 quizQuestions.forEach(questionData => {
-                    updateQuestionState(questionData.number, {  isCollapsed: false, revealed: false, answered: false, selectedAnswer:null, isCorrectlyAnswered: false }, { skipDisplayResults: true }); //Do NOT change
-                });
-
-                renderQuizUI();  // Re-render
-                displayResults();
             }
 
             function collapseAllClicked() {
