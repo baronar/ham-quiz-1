@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Technician Class Ham Radio License Quiz - Element 2</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <h2>Technician Class Ham Radio License Quiz - Element 2</h2>
+
+        <div class="button-container-right">
+            <div class="reveal-button-container">
+                <button id="reveal-answers-button" class="reveal-button">Reveal All Answers</button>
+            </div>
+            <div class="clear-button-container">
+                <button id="clear-answers-button" class="clear-button">Clear All Answers</button>
+            </div>
+            <div class="collapse-button-container">
+                <button id="collapse-all-button" class="clear-button">Collapse All Questions</button>
+            </div>
+        </div>
+        <!-- Add this section for score and random question buttons -->
+        <div class="score-container">
+            <div class="score-table">
+                <div>
+                    <span>Correct:</span>
+                    <span id="correct-count">0</span>
+                </div>
+                <div>
+                    <span>Incorrect:</span>
+                    <span id="incorrect-count">0</span>
+                </div>
+                <div>
+                    <span>Unanswered:</span>
+                    <span id="unanswered-count">0</span>
+                </div>
+
+            </div>
+            <div class="score-buttons">
+                <!-- NEW Clear All Button -->
+                <button id="clear-all-storage-button" class="score-button" style="display: none;">Clear All</button>
+                <button id="random-question-button" class="score-button">Random Q</button>
+                <button id="reset-score-button" class="score-button">Reset Score</button>
+                <button id="display-results-button" class="score-button">Display Results</button>
+            </div>
+        </div>
+        <!-- end section for score and random question buttons -->
+
+
+        <div class="test-button-container">
+            <!-- REFACTORED Test UI State Buttons -->
+            <button id="test-state-1" class="test-button">Unanswered/Reset Expanded</button>
+            <button id="test-state-2" class="test-button">Correctly Answered/Revealed Expanded</button>
+            <button id="test-state-3" class="test-button">Collapsed</button>
+            <button id="test-state-4" class="test-button">Answered Incorrectly Expanded</button>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Questions will be injected here by JavaScript -->
+        </div>
+
+        <script>
+            const debug = false;
+            const isDebugMode = false; // Set to true for debugging
+            const isOneQuestionDebugMode = false;
+            const HasClearAllButton = true; // Flag to control Clear All button
+            let isRandomMode = false; // Flag to track Random Question Mode
+            const randomModeCorrectDelay = 2000; // 2 seconds
+            const randomModeIncorrectDelay = 5000; // 5 seconds
+        </script>
+        <script src="questions.js"></script>
+        <script src="randomQuestionFeature.js"></script>
+        <script src="quizDisplay.js"></script>
+        <script src="quizTestCases.js"></script>  <!-- Keep this last -->
+        <script>
+            let quizState = loadQuizState();
+            let quizMethods;
+
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof initializeRandomQuestionFeature === 'function') {
+                    quizMethods = initializeRandomQuestionFeature();
+                }
+                attachEventListeners();
+                attachTestUIEventListeners();
+
+                if (HasClearAllButton) {
+                    document.getElementById('clear-all-storage-button').style.display = 'inline-block';
+                }
+
+                // Initial render and displayResults moved inside a function
+                initialRender();
+            });
+          function initialRender() {
+              renderQuizUI();      // Initial render
+              displayResults();    // Initial score display
+              // NOW it's safe to check isRandomMode and potentially display a question
+              if (isRandomMode) {
+                  displayRandomQuestion(); // Call *after* initial render
+              }
+          }
+
+            function attachEventListeners() {
+                document.getElementById('reveal-answers-button').addEventListener('click', revealClicked);
+                document.getElementById('clear-answers-button').addEventListener('click', clearClicked);
+                document.getElementById('collapse-all-button').addEventListener('click', collapseAllClicked);
+                document.getElementById('random-question-button').addEventListener('click', handleRandomQuestion);
+                document.getElementById('reset-score-button').addEventListener('click', resetScore);
+                document.getElementById('display-results-button').addEventListener('click', displayResultsClicked);
+                document.getElementById('clear-all-storage-button').addEventListener('click', clearAllStorage);
+            }
+
+            function loadQuizState() {
+                const storedState = localStorage.getItem('hamQuizState');
+                // Check if there's stored state AND if isRandomMode is true in that state
+                if (storedState) {
+                    const parsedState = JSON.parse(storedState);
+                    if (parsedState.isRandomMode) {
+                        isRandomMode = true; // Restore isRandomMode from localStorage
+                    }
+                    return parsedState;
+                }
+                return {};
+            }
+
+            function saveQuizState(state) {
+                // Save the current isRandomMode state along with the rest of the quiz state
+                const stateToSave = { ...state, isRandomMode: isRandomMode };
+                if (isDebugMode) console.log("Saving quizState to LocalStorage:", stateToSave);
+                localStorage.setItem('hamQuizState', JSON.stringify(stateToSave));
+            }
+
+          function getQuestionState(questionNumber) {
+            // Initialize a question's state if it doesn't exist yet
+            if (!quizState[questionNumber]) {
+                quizState[questionNumber] = {
+                    answered: false,
+                    isCorrectlyAnswered: false,
+                    selectedAnswer: null,
+                    isCollapsed: false,
+                    revealed: false // Initialize revealed state
+                };
+            }
+              return quizState[questionNumber];
+          }
+
+            function updateQuestionState(questionNumber, updates, options = {}) {
+                const { skipDisplayResults = false, force = false } = options;
+                quizState[questionNumber] = { ...getQuestionState(questionNumber), ...updates };
+                saveQuizState(quizState); // Save with isRandomMode
+                renderQuestionUI(questionNumber); // Update the UI for this question
+                if (!skipDisplayResults) {
+                    displayResults(); // Update the score display
+                }
+            }
+
+           function attachTestUIEventListeners() {
+                document.getElementById('test-state-1').addEventListener('click', () => testSetUIState('T1A01 (C) [97.1]', { answered: false, isCorrectlyAnswered: false, selectedAnswer: null, isCollapsed: false })); // Unanswered/Reset Expanded
+                document.getElementById('test-state-2').addEventListener('click', () => testSetUIState('T1A01 (C) [97.1]', { answered: true, isCorrectlyAnswered: true, selectedAnswer: 'C', isCollapsed: false })); // Correctly Answered/Revealed Expanded
+                document.getElementById('test-state-3').addEventListener('click', () => testSetUIState('T1A01 (C) [97.1]', { answered: true, isCorrectlyAnswered: true, isCollapsed: true }));  // Collapsed
+                document.getElementById('test-state-4').addEventListener('click', () => testSetUIState('T1A01 (C) [97.1]', { answered: true, isCorrectlyAnswered: false, selectedAnswer: 'A', isCollapsed: false })); // Answered Incorrectly Expanded
+            }
+            function revealClicked() {
+               if (isRandomMode) {
+                  deactivateRandomMode();
+               }
+                if (isDebugMode) console.log("Reveal Answers button clicked.");
+                quizQuestions.forEach(questionData => {
+                    console.log(`revealClicked - Question: ${questionData.number} BEFORE updateQuestionState - Answered: ${getQuestionState(questionData.number).answered}`); // Debugging BEFORE
+                    // Only reveal,  expand, but don't change score-related *answered* state:
+                    updateQuestionState(questionData.number, {
+                        isCollapsed: false,
+                        revealed: true,
+                        answered: false,       // *** IMPORTANT: DO NOT mark as answered for scoring ***
+                        isCorrectlyAnswered: false, // *** IMPORTANT: Reset correctness for scoring display ***
+                        selectedAnswer: questionData.correctAnswer // Select the correct answer for *display*
+
+                    }, { skipDisplayResults: true }); // Don't update score display *yet*
+                     console.log(`revealClicked - Question: ${questionData.number} AFTER updateQuestionState - Answered: ${getQuestionState(questionData.number).answered}`); // Debugging AFTER
+                });
+                displayResults(); // Update score display *after* all questions are processed.
+            }
+
+            function clearClicked() {
+                if (isRandomMode) {
+                  deactivateRandomMode();
+                }
+                if (isDebugMode) console.log("Clear Answers button clicked.");
+                 quizQuestions.forEach(questionData => {
+                    updateQuestionState(questionData.number, {  isCollapsed: false, revealed: false, answered: false, selectedAnswer:null, isCorrectlyAnswered: false }, { skipDisplayResults: true }); //Do NOT change
+                });
+
+                renderQuizUI();  // Re-render
+                displayResults();
+            }
+
+            function collapseAllClicked() {
+               if (isRandomMode) {
+                  deactivateRandomMode();
+               }
+                if (isDebugMode) console.log("Collapse All Questions button clicked.");
+                quizQuestions.forEach(questionData => {
+                    updateQuestionState(questionData.number, { isCollapsed: true }, { skipDisplayResults: true });
+                });
+            }
+
+
+           function testSetUIState(questionNumber, state) {
+                if (isDebugMode) console.log(`Test UI State Change: Question ${questionNumber}, State:`, state);
+                updateQuestionState(questionNumber, state);
+            }
+
+          function handleRandomQuestion() {
+            if (!isRandomMode) {
+                // Enter Random Mode
+                isRandomMode = true;
+                saveQuizState(quizState); // *** IMPORTANT: Save isRandomMode ***
+                document.getElementById('quiz-container').innerHTML = ''; // Clear all other questions
+                displayRandomQuestion(); // Show the first random question
+            }
+            // If already in random mode do nothing.
+        }
+
+            function resetScore() {
+              if (isRandomMode) {
+                  deactivateRandomMode();
+              }
+                // Reset ONLY the score-related parts of quizState:
+                for (const questionNumber in quizState) {
+                    if (quizState.hasOwnProperty(questionNumber)) {
+                        quizState[questionNumber].answered = false;
+                        quizState[questionNumber].isCorrectlyAnswered = false;
+                        quizState[questionNumber].selectedAnswer = null;
+                        quizState[questionNumber].isCollapsed = false; // Expand all on reset.
+                        quizState[questionNumber].revealed = false; // Reset reveal state.
+                    }
+                }
+                saveQuizState(quizState); // Save the modified state
+                renderQuizUI();          // Re-render the UI
+                displayResults();       // Update the score display
+            }
+
+           function displayResultsClicked() {
+              if (isRandomMode) {
+                  deactivateRandomMode();
+               }
+               // Clear any single displayed question
+               document.getElementById('quiz-container').innerHTML = '';
+               console.log("displayResultsClicked - BEFORE quizQuestions.forEach"); // Debugging BEFORE loop
+               quizQuestions.forEach(questionData => {
+                    const state = getQuestionState(questionData.number);
+                    console.log(`displayResultsClicked - Question: ${questionData.number} - State BEFORE update: Answered: ${state.answered}, Collapsed: ${state.isCollapsed}`); // Debugging INSIDE loop - BEFORE update
+                    // Collapse if unanswered, expand if answered:
+                  updateQuestionState(questionData.number, { isCollapsed: !state.answered }, { skipDisplayResults: true });
+                   const stateAfter = getQuestionState(questionData.number);
+                   console.log(`displayResultsClicked - Question: ${questionData.number} - State AFTER update: Answered: ${stateAfter.answered}, Collapsed: ${stateAfter.isCollapsed}`); // Debugging INSIDE loop - AFTER update
+                });
+                console.log("displayResultsClicked - AFTER quizQuestions.forEach"); // Debugging AFTER loop
+                renderQuizUI();  // Now render them all
+                displayResults(); // And update the counts
+            }
+
+            function displayResults() {
+                let correct = 0;
+                let incorrect = 0;
+                let unanswered = 0;
+
+                quizQuestions.forEach(question => {
+                    const state = getQuestionState(question.number);
+                    if (state.answered) {
+                        if (state.isCorrectlyAnswered) {
+                            correct++;
+                        } else {
+                            incorrect++;
+                        }
+                    } else {
+                        unanswered++;
+                    }
+                });
+
+                console.log("Display Results Counts:", {correct, incorrect, unanswered}); // Debugging Log
+                document.getElementById('correct-count').textContent = correct;
+                document.getElementById('incorrect-count').textContent = incorrect;
+                document.getElementById('unanswered-count').textContent = unanswered;
+            }
+            // NEW: Function to clear localStorage and reload
+            function clearAllStorage() {
+                localStorage.clear(); // Clear all data in localStorage
+
+                // Force a reload with cache clearing (the most reliable cross-browser method)
+                window.location.reload(true);
+            }
+
+          function deactivateRandomMode() {
+            isRandomMode = false;
+            saveQuizState(quizState); // *** IMPORTANT: Save isRandomMode ***
+            // No need to re-render everything here; the calling function will handle UI updates.
+          }
+
+            function displayRandomQuestion() {
+                const unansweredQuestions = quizQuestions.filter(question => {
+                    const state = getQuestionState(question.number);
+                    return !state.answered;
+                });
+
+                if (unansweredQuestions.length === 0) {
+                    alert("All questions have been answered!");
+                     deactivateRandomMode();
+                    return;
+                }
+
+                const randomIndex = Math.floor(Math.random() * unansweredQuestions.length);
+                const randomQuestion = unansweredQuestions[randomIndex];
+                renderQuestionUI(randomQuestion.number); // Only render this question
+            }
+
+        </script>
+    </body>
+    </html>
